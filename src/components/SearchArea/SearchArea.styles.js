@@ -150,8 +150,6 @@ export const ClearButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f8f9fa !important;
-  color: #6c757d !important;
   border: none !important;
   border-radius: 50% !important;
   margin-left: 8px;
