@@ -36,7 +36,6 @@ export const clearData = () => ({
   type: CLEAR_DATA,
 })
 
-// Async Action Creator for Bitcoin Address Data
 export const getBitcoinAddressData = (address) => {
   return async (dispatch) => {
     if (!address || address.trim() === '') {
@@ -46,13 +45,17 @@ export const getBitcoinAddressData = (address) => {
     dispatch(fetchBitcoinData());
     
     try {
-        // await fetch(`http://localhost:3000/address/${address}`);
-      const response = getResponseMock(address);
-      if (response) {      
-        dispatch(fetchBitcoinDataSuccess({ ...response, type: 'address' }));
-      } else {
-        dispatch(fetchBitcoinDataFailure("Invalid bitcoin address"));
+      const response = await fetch(`http://localhost:3000/address/${address}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        dispatch(fetchBitcoinDataFailure(errorData.error || `HTTP error! status: ${response.status}`));
       }
+      
+      const data = await response.json();
+      if (!data.address || !data.balance || data.transaction_count === undefined) {
+        dispatch(fetchBitcoinDataFailure('Invalid response format from server'));
+      }
+      dispatch(fetchBitcoinDataSuccess({ ...data, type: 'address' }));
     } catch (error) {
       console.error('Error fetching Bitcoin address data:', error);
     } finally {
@@ -61,7 +64,6 @@ export const getBitcoinAddressData = (address) => {
   };
 };
 
-// Async Action Creator for Bitcoin transaction Data
 export const getBitcoinTransactionData = (transactionHash) => {
   return async (dispatch) => {
     if (!transactionHash || transactionHash.trim() === '') {
@@ -71,12 +73,17 @@ export const getBitcoinTransactionData = (transactionHash) => {
     dispatch(fetchBitcoinData());
     
     try {
-      const response = getResponseMock(transactionHash);
-      if (response) {      
-        dispatch(fetchBitcoinDataSuccess({ ...response, type: 'transaction' }));
-      } else {
-        dispatch(fetchBitcoinDataFailure("Invalid bitcoin transactionHash"));
+      const response = await fetch(`http://localhost:3000/transaction/${transactionHash}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        dispatch(fetchBitcoinDataFailure(errorData.error || `HTTP error! status: ${response.status}`));
       }
+      
+      const data = await response.json();
+      if (!data.hash|| !data.fee|| !data.inputs|| !data.outputs || !data.transaction_index || !data.block_time) {
+        dispatch(fetchBitcoinDataFailure('Invalid response format from server'));
+      }
+      dispatch(fetchBitcoinDataSuccess({ ...data, type: 'transaction' }));
     } catch (error) {
       console.error('Error fetching Bitcoin address data:', error);
     } finally {
