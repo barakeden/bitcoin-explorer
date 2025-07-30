@@ -193,5 +193,6 @@ export const ClearButton = styled(Button)`
     align-items: center;
     justify-content: center;
     padding: 0;
+    outline: unset;
   }
 `; 

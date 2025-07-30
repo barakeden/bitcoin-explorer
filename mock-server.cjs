@@ -88,33 +88,6 @@ const mockTransactionData = {
     ],
     transaction_index: 0,
     block_time: '2009-01-03T18:15:05Z'
-  },
-  // Multi-input/output transaction example
-  'abc123def456789012345678901234567890123456789012345678901234567890': {
-    hash: 'abc123def456789012345678901234567890123456789012345678901234567890',
-    fee: '0.00001234',
-    inputs: [
-      {
-        address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
-        amount: '0.5'
-      },
-      {
-        address: '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy',
-        amount: '0.2'
-      }
-    ],
-    outputs: [
-      {
-        address: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
-        amount: '0.69'
-      },
-      {
-        address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
-        amount: '0.009'
-      }
-    ],
-    transaction_index: 0,
-    block_time: '2023-01-15T14:30:00Z'
   }
 }
 
