@@ -3,8 +3,6 @@ import { Input, Button } from 'antd';
 
 export const SearchAreaContainer = styled.div`
   width: 100%;
-  margin: 0 auto;
-  padding: 20px;
   display: flex;
   gap: 10px;
   height: 50px;
@@ -20,6 +18,7 @@ export const SearchInputContainer = styled.div`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   position: relative;
+  width: 100rem;
 
   &:focus-within {
     border-color: #f7931a;
@@ -104,6 +103,7 @@ export const StyledInput = styled(Input)`
 `;
 
 export const SearchButton = styled(Button)`
+  width: 8rem;
   height: 100%;
   display: flex;
   align-items: center;
@@ -157,8 +157,8 @@ export const ClearButton = styled(Button)`
   margin-left: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 32px;
-  height: 32px;
+  width: 50px;
+  height: 50px;
 
   &:hover:not(:disabled) {
     background: #e9ecef !important;

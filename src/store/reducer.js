@@ -3,7 +3,8 @@ import {
   FETCH_BITCOIN_DATA_SUCCESS,
   FETCH_BITCOIN_DATA_FAILURE,
   SET_THEME,
-  SET_LOADING
+  SET_LOADING,
+  CLEAR_DATA
 } from './actions';
 
 const initialState = {
@@ -47,6 +48,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: action.payload
+      };
+
+    case CLEAR_DATA:
+      return {
+        ...state,
+        bitcoinData: null,
+        loading: false,
+        error: null,     
       };
 
     default:

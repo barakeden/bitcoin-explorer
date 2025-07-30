@@ -6,7 +6,11 @@ import styled from 'styled-components';
 
 const AppContainer = styled.div`
   height: 100%;
-  width: 100%;
+  width: calc(100% - 40px);
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 function App() {

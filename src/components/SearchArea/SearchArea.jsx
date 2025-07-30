@@ -9,7 +9,8 @@ import {
   SearchButton, 
   ClearButton 
 } from './SearchArea.styles';
-import { getBitcoinAddressData } from '../../store/actions';
+import { addressRegex, txRegex } from '../../utils/utils'
+import { getBitcoinAddressData, getBitcoinTransactionData, clearData, fetchBitcoinDataFailure } from '../../store/actions';
 
 export const SearchArea = () => {
   const dispatch = useDispatch();
@@ -17,22 +18,33 @@ export const SearchArea = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = () => {
-    if (searchQuery.trim()) {
+      dispatch(clearData());
+
+      if (searchQuery.trim()) {
       dispatch(setLoading(true));
-      // Add your search logic here
-      // should determine what is the searchQuery type
-     
-      // Simulate search delay
-      setTimeout(() => {
-        dispatch(setLoading(false));
-      }, 1000);
-      dispatch(getBitcoinAddressData(searchQuery));
+      const input = searchQuery.trim();
+      
+      if (addressRegex.test(input)) {
+      // It's a Bitcoin address
+      dispatch(getBitcoinAddressData(input));
+      } else if (txRegex.test(input)) {
+        // It's a transaction hash
+        dispatch(getBitcoinTransactionData(input));
+      } else {
+        setTimeout(() => { 
+          dispatch(setLoading(false));
+          dispatch(fetchBitcoinDataFailure("Invalid input"));
+
+        }, 1000);
+        
+      }
       console.log('Searching for:', searchQuery);
     }
   };
 
   const handleClear = () => {
     setSearchQuery('');
+    dispatch(clearData());
   };
 
   const handleKeyPress = (e) => {
@@ -45,7 +57,7 @@ export const SearchArea = () => {
     <SearchAreaContainer className='SearchAreaContainer'>
       <SearchInputContainer className='SearchInputContainer'>
         <StyledInput
-          placeholder="Search for blocks, transactions, or addresses..."
+          placeholder="Search for transactions or addresses..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={handleKeyPress}
@@ -67,7 +79,6 @@ export const SearchArea = () => {
             type="text"
             icon={<CloseOutlined />}
             onClick={handleClear}
-            disabled={loading}
             size="large"
           />
         )}
